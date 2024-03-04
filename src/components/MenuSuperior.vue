@@ -4,6 +4,10 @@ import { ref } from 'vue';
 import CartPlus from 'vue-material-design-icons/CartPlus.vue';
 import Account from 'vue-material-design-icons/Account.vue';
 import Menu from 'vue-material-design-icons/Menu.vue';
+import { useScreen } from '@/composables/screen';
+
+const { isMobile, } = useScreen();
+
 
 const menuAberto = ref(false);
 </script>
@@ -14,12 +18,13 @@ const menuAberto = ref(false);
         <h1>FakeStore</h1>
       </div>
       <nav>
-        <ul :class="menuAberto ? 'menu' : ''">
+        <ul :class="menuAberto & isMobile ? 'menu mobile' : 'desktop' ">
           <li>Home</li>
           <li>Eletrônicos</li>
           <li>Jóias</li>
           <li>Masculino</li>
           <li>Feminino</li>
+          <li v-if="isMobile">Produtos</li>
         </ul>
       </nav>
       <div class="header--icons">

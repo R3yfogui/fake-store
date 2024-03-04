@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useScreen } from '@/composables/screen';
+
+const { browserWidth, deviceWidth, isMobile, isDesktop } = useScreen();
 const produtos = ref([]);
 
 onMounted(async () => {
@@ -13,7 +16,15 @@ const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
 
 <template>
   <div>
-    <h1>Produtos</h1>
+    <div style="display: flex;justify-content: center; align-items: center;">
+    <h1>
+       Produtos - {{ browserWidth }} - {{ deviceWidth }} - {{
+      isMobile}} 
+      <span v-if="isMobile">É móvel</span>
+    </h1>
+    
+  </div>
+  <img v-if="isMobile" src="../../public/apple-touch-cion.png" alt="">
     <div class="container">
       <div class="card" v-for="produto in produtos" :key="produto.id">
         <h1 class="card--title">{{ produto.title }}</h1>
@@ -23,9 +34,45 @@ const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
       </div>
     </div>
   </div>
+  <div v-if="isDesktop">
+    <footer>
+	<p>&copy; 2023 - Todos os direitos reservados</p>
+	<nav>
+		<ul>
+			<li><a href="#">Termos de uso</a></li>
+			<li><a href="#">Política de privacidade</a></li>
+			<li><a href="#">Sobre nós</a></li>
+			<li><a href="#">Contato</a></li>
+		</ul>
+	</nav>
+</footer>
+  </div>
 </template>
 
 <style scoped>
+footer {
+	background-color: #333;
+	color: #fff;
+	padding: 20px;
+	text-align: center;
+	margin-top: 50px;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	display: inline-block;
+	margin: 0 10px;
+}
+
+a {
+	color: #fff;
+	text-decoration: none;
+}
 .container {
   display: flex;
   flex-wrap: wrap;
